@@ -286,6 +286,8 @@ export interface Options<RowData extends object> {
   detailPanelType?: "single" | "multiple";
   doubleHorizontalScroll?: boolean;
   draggable?: boolean;
+  draggableRows?: boolean;
+  draggableRowsOptions?: DraggableRowsOptions;
   emptyRowsWhenPaging?: boolean;
   exportAllData?: boolean;
   exportButton?: boolean;
@@ -388,6 +390,13 @@ export interface Localization {
     searchTooltip?: React.ReactNode;
     searchPlaceholder?: React.ReactNode;
   };
+}
+
+export interface DraggableRowsOptions {
+  draggableCell?: boolean;
+  dragHeaderContent: string | React.ReactElement<any>;
+  dragCellContent: string | React.ReactElement<any>;
+  dragCellWidth?: string;
 }
 
 export default class MaterialTable<
