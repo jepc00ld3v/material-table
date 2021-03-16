@@ -437,6 +437,17 @@ var MTableFilterRow = /*#__PURE__*/ (function (_React$Component) {
             );
           });
 
+        if (this.props.draggableCells) {
+          columns.splice(
+            0,
+            0,
+            /*#__PURE__*/ React.createElement(_TableCell["default"], {
+              padding: "none",
+              key: "key-draggable-column",
+            })
+          );
+        }
+
         if (this.props.selection) {
           columns.splice(
             0,
@@ -529,6 +540,7 @@ var MTableFilterRow = /*#__PURE__*/ (function (_React$Component) {
 MTableFilterRow.defaultProps = {
   columns: [],
   selection: false,
+  draggableCells: false,
   hasActions: false,
   localization: {
     filterTooltip: "Filter",

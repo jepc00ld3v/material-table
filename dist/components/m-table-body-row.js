@@ -73,6 +73,8 @@ var React = _interopRequireWildcard(require("react"));
 
 var CommonValues = _interopRequireWildcard(require("../utils/common-values"));
 
+var _reactBeautifulDnd = require("react-beautiful-dnd");
+
 function _createSuper(Derived) {
   var hasNativeReflectConstruct = _isNativeReflectConstruct();
   return function _createSuperInternal() {
@@ -276,6 +278,19 @@ var MTableBodyRow = /*#__PURE__*/ (function (_React$Component) {
             )
           )
         );
+      },
+    },
+    {
+      key: "renderDraggableColumn",
+      value: function renderDraggableColumn() {
+        var draggableOptions = this.props.options.draggableRowsOptions;
+        return /*#__PURE__*/ React.createElement(_TableCell["default"], {
+          padding: "none",
+          key: "key-drag-column",
+          style: {
+            width: draggableOptions.dragCellWidth,
+          },
+        });
       },
     },
     {
@@ -634,36 +649,83 @@ var MTableBodyRow = /*#__PURE__*/ (function (_React$Component) {
           React.Fragment,
           null,
           /*#__PURE__*/ React.createElement(
-            _TableRow["default"],
-            (0, _extends2["default"])(
-              {
-                selected: hasAnyEditingRow,
-              },
-              rowProps,
-              {
-                hover: onRowClick ? true : false,
-                style: this.getStyle(this.props.index, this.props.level),
-                onClick: function onClick(event) {
-                  onRowClick &&
-                    onRowClick(event, _this6.props.data, function (panelIndex) {
-                      var panel = detailPanel;
+            _reactBeautifulDnd.Draggable,
+            {
+              isDragDisabled: !options.draggableRows,
+              key: "row-" + this.props.index.toString(),
+              draggableId: "row-" + this.props.index.toString(),
+              index: this.props.index,
+            },
+            function (provided, snapshot) {
+              var _provided$draggablePr = provided.draggableProps,
+                providedStyle = _provided$draggablePr.style,
+                providedDraggableProps = (0,
+                _objectWithoutProperties2["default"])(_provided$draggablePr, [
+                  "style",
+                ]);
+              var rowStyle = (0, _objectSpread2["default"])(
+                {},
+                _this6.getStyle(_this6.props.index, _this6.props.level),
+                providedStyle
+              );
+              return /*#__PURE__*/ React.createElement(
+                _TableRow["default"],
+                (0, _extends2["default"])(
+                  {
+                    selected: hasAnyEditingRow,
+                  },
+                  rowProps,
+                  {
+                    hover: onRowClick ? true : false,
+                    style: rowStyle,
+                    onClick: function onClick(event) {
+                      onRowClick &&
+                        onRowClick(
+                          event,
+                          _this6.props.data,
+                          function (panelIndex) {
+                            var panel = detailPanel;
 
-                      if (Array.isArray(panel)) {
-                        panel = panel[panelIndex || 0];
+                            if (Array.isArray(panel)) {
+                              panel = panel[panelIndex || 0];
 
-                        if (typeof panel === "function") {
-                          panel = panel(_this6.props.data);
-                        }
+                              if (typeof panel === "function") {
+                                panel = panel(_this6.props.data);
+                              }
 
-                        panel = panel.render;
-                      }
+                              panel = panel.render;
+                            }
 
-                      onToggleDetailPanel(_this6.props.path, panel);
-                    });
-                },
-              }
-            ),
-            renderColumns
+                            onToggleDetailPanel(_this6.props.path, panel);
+                          }
+                        );
+                    },
+                    ref: provided.innerRef,
+                  },
+                  providedDraggableProps,
+                  options.draggableRowsOptions.draggableCell
+                    ? {}
+                    : provided.dragHandleProps
+                ),
+                options.draggableRows &&
+                  options.draggableRowsOptions.draggableCell &&
+                  /*#__PURE__*/ React.createElement(
+                    _this6.props.components.Cell,
+                    (0, _extends2["default"])(
+                      {
+                        value: options.draggableRowsOptions.dragCellContent,
+                        columnDef: {
+                          tableData: {
+                            width: options.draggableRowsOptions.dragCellWidth,
+                          },
+                        },
+                      },
+                      provided.dragHandleProps
+                    )
+                  ),
+                renderColumns
+              );
+            }
           ),
           this.props.data.tableData &&
             this.props.data.tableData.showDetailPanel &&

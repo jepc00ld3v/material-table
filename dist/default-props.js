@@ -333,6 +333,13 @@ var defaultProps = {
     detailPanelType: "multiple",
     debounceInterval: 200,
     doubleHorizontalScroll: false,
+    draggableRows: false,
+    draggableRowsOptions: {
+      draggableCell: false,
+      dragHeaderContent: "",
+      dragCellContent: "=",
+      dragCellWidth: "40px",
+    },
     emptyRowsWhenPaging: true,
     exportAllData: false,
     exportButton: false,
@@ -367,7 +374,7 @@ var defaultProps = {
     defaultExpanded: false,
     detailPanelColumnAlignment: "left",
     thirdSortClick: true,
-    overflowY: "auto",
+    overflowY: "initial",
   },
   localization: {
     error: "Data could not be retrieved",

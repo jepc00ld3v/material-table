@@ -340,6 +340,15 @@ var propTypes = {
     debounceInterval: _propTypes["default"].number,
     detailPanelType: _propTypes["default"].oneOf(["single", "multiple"]),
     doubleHorizontalScroll: _propTypes["default"].bool,
+    draggableRows: _propTypes["default"].bool,
+    draggableRowsOptions: _propTypes["default"].shape({
+      draggableCell: _propTypes["default"].bool,
+      dragHeaderContent:
+        _propTypes["default"].string | _propTypes["default"].element,
+      dragCellContent:
+        _propTypes["default"].string | _propTypes["default"].element,
+      dragCellWidth: _propTypes["default"].string,
+    }),
     emptyRowsWhenPaging: _propTypes["default"].bool,
     exportAllData: _propTypes["default"].bool,
     exportButton: _propTypes["default"].bool,

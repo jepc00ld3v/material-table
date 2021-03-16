@@ -128,6 +128,9 @@ var MTableHeader = /*#__PURE__*/ (function (_React$Component) {
                   key: columnDef.tableData.id,
                   draggableId: columnDef.tableData.id.toString(),
                   index: index,
+                  isDragDisabled: !(
+                    _this.props.draggable && !_this.props.draggableRows
+                  ),
                 },
                 function (provided, snapshot) {
                   return /*#__PURE__*/ React.createElement(
@@ -293,6 +296,24 @@ var MTableHeader = /*#__PURE__*/ (function (_React$Component) {
       },
     },
     {
+      key: "renderDraggableHeaderCell",
+      value: function renderDraggableHeaderCell() {
+        var draggableOptions = this.props.options.draggableRowsOptions;
+        return /*#__PURE__*/ React.createElement(
+          _TableCell["default"],
+          {
+            padding: "none",
+            key: "key-drag-column",
+            className: this.props.classes.header,
+            style: (0, _objectSpread2["default"])({}, this.props.headerStyle, {
+              width: draggableOptions.dragCellWidth,
+            }),
+          },
+          draggableOptions.dragHeaderContent
+        );
+      },
+    },
+    {
       key: "renderDetailPanelColumnCell",
       value: function renderDetailPanelColumnCell() {
         return /*#__PURE__*/ React.createElement(_TableCell["default"], {
@@ -312,6 +333,13 @@ var MTableHeader = /*#__PURE__*/ (function (_React$Component) {
 
         if (this.props.hasSelection) {
           headers.splice(0, 0, this.renderSelectionHeader());
+        }
+
+        if (
+          this.props.options.draggableRows &&
+          this.props.options.draggableRowsOptions.draggableCell
+        ) {
+          headers.splice(0, 0, this.renderDraggableHeaderCell());
         }
 
         if (this.props.showActionsColumn) {

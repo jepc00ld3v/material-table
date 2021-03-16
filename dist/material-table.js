@@ -130,6 +130,11 @@ var MaterialTable = /*#__PURE__*/ (function (_React$Component) {
     );
     (0, _defineProperty2["default"])(
       (0, _assertThisInitialized2["default"])(_this),
+      "draggableRowsIdentifier",
+      "draggable-rows"
+    );
+    (0, _defineProperty2["default"])(
+      (0, _assertThisInitialized2["default"])(_this),
       "isRemoteData",
       function (props) {
         return !Array.isArray((props || _this.props).data);
@@ -259,6 +264,17 @@ var MaterialTable = /*#__PURE__*/ (function (_React$Component) {
       (0, _assertThisInitialized2["default"])(_this),
       "onDragEnd",
       function (result) {
+        if (_this.props.options.draggableRows) {
+          _this.toggleDraggableClass(result);
+
+          if (
+            result.source.droppableId === _this.draggableRowsIdentifier &&
+            _this.props.onRowDrop
+          ) {
+            _this.props.onRowDrop(result);
+          }
+        }
+
         if (!result || !result.source || !result.destination) return;
 
         _this.dataManager.changeByDrag(result);
@@ -666,6 +682,33 @@ var MaterialTable = /*#__PURE__*/ (function (_React$Component) {
     );
     (0, _defineProperty2["default"])(
       (0, _assertThisInitialized2["default"])(_this),
+      "toggleDraggableClass",
+      function (result) {
+        var container = _this.tableContainerDiv.current;
+        container.style.height =
+          container.getBoundingClientRect().height + "px";
+        var row = container.querySelector(
+          'tr[data-rbd-draggable-id="' + result.draggableId + '"]'
+        );
+
+        if (row.classList.contains(_this.props.classes.draggableRow)) {
+          row.classList.remove(_this.props.classes.draggableRow);
+        } else {
+          row.classList.add(_this.props.classes.draggableRow);
+        }
+      }
+    );
+    (0, _defineProperty2["default"])(
+      (0, _assertThisInitialized2["default"])(_this),
+      "onDragStart",
+      function (result) {
+        if (_this.props.options.draggableRows) {
+          _this.toggleDraggableClass(result);
+        }
+      }
+    );
+    (0, _defineProperty2["default"])(
+      (0, _assertThisInitialized2["default"])(_this),
       "renderTable",
       function (props) {
         return /*#__PURE__*/ React.createElement(
@@ -722,40 +765,60 @@ var MaterialTable = /*#__PURE__*/ (function (_React$Component) {
               treeDataMaxLevel: _this.state.treeDataMaxLevel,
               options: props.options,
             }),
-          /*#__PURE__*/ React.createElement(props.components.Body, {
-            actions: props.actions,
-            components: props.components,
-            icons: props.icons,
-            renderData: _this.state.renderData,
-            currentPage: _this.state.currentPage,
-            initialFormData: props.initialFormData,
-            pageSize: _this.state.pageSize,
-            columns: _this.state.columns,
-            errorState: _this.state.errorState,
-            detailPanel: props.detailPanel,
-            options: props.options,
-            getFieldValue: _this.dataManager.getFieldValue,
-            isTreeData: _this.props.parentChildData !== undefined,
-            onFilterChanged: _this.onFilterChange,
-            onRowSelected: _this.onRowSelected,
-            onToggleDetailPanel: _this.onToggleDetailPanel,
-            onGroupExpandChanged: _this.onGroupExpandChanged,
-            onTreeExpandChanged: _this.onTreeExpandChanged,
-            onEditingCanceled: _this.onEditingCanceled,
-            onEditingApproved: _this.onEditingApproved,
-            localization: (0, _objectSpread2["default"])(
-              {},
-              MaterialTable.defaultProps.localization.body,
-              _this.props.localization.body
-            ),
-            onRowClick: _this.props.onRowClick,
-            showAddRow: _this.state.showAddRow,
-            hasAnyEditingRow: !!(
-              _this.state.lastEditingRow || _this.state.showAddRow
-            ),
-            hasDetailPanel: !!props.detailPanel,
-            treeDataMaxLevel: _this.state.treeDataMaxLevel,
-          })
+          /*#__PURE__*/ React.createElement(
+            _reactBeautifulDnd.DragDropContext,
+            {
+              onBeforeDragStart: _this.onDragStart,
+              onDragEnd: _this.onDragEnd,
+            },
+            /*#__PURE__*/ React.createElement(
+              _reactBeautifulDnd.Droppable,
+              {
+                isDropDisabled: !_this.props.options.draggableRows,
+                droppableId: _this.draggableRowsIdentifier,
+              },
+              function (provided, snapshot) {
+                return /*#__PURE__*/ React.createElement(
+                  props.components.Body,
+                  {
+                    provided: provided,
+                    actions: props.actions,
+                    components: props.components,
+                    icons: props.icons,
+                    renderData: _this.state.renderData,
+                    currentPage: _this.state.currentPage,
+                    initialFormData: props.initialFormData,
+                    pageSize: _this.state.pageSize,
+                    columns: _this.state.columns,
+                    errorState: _this.state.errorState,
+                    detailPanel: props.detailPanel,
+                    options: props.options,
+                    getFieldValue: _this.dataManager.getFieldValue,
+                    isTreeData: _this.props.parentChildData !== undefined,
+                    onFilterChanged: _this.onFilterChange,
+                    onRowSelected: _this.onRowSelected,
+                    onToggleDetailPanel: _this.onToggleDetailPanel,
+                    onGroupExpandChanged: _this.onGroupExpandChanged,
+                    onTreeExpandChanged: _this.onTreeExpandChanged,
+                    onEditingCanceled: _this.onEditingCanceled,
+                    onEditingApproved: _this.onEditingApproved,
+                    localization: (0, _objectSpread2["default"])(
+                      {},
+                      MaterialTable.defaultProps.localization.body,
+                      _this.props.localization.body
+                    ),
+                    onRowClick: _this.props.onRowClick,
+                    showAddRow: _this.state.showAddRow,
+                    hasAnyEditingRow: !!(
+                      _this.state.lastEditingRow || _this.state.showAddRow
+                    ),
+                    hasDetailPanel: !!props.detailPanel,
+                    treeDataMaxLevel: _this.state.treeDataMaxLevel,
+                  }
+                );
+              }
+            )
+          )
         );
       }
     );
@@ -1350,6 +1413,7 @@ var MaterialTable = /*#__PURE__*/ (function (_React$Component) {
                   }),
                 onSortChanged: this.onChangeGroupOrder,
                 onGroupRemoved: this.onGroupRemoved,
+                options: props.options,
               }),
             /*#__PURE__*/ React.createElement(
               ScrollBar,

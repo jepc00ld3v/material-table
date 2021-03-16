@@ -299,6 +299,8 @@ var MTableBody = /*#__PURE__*/ (function (_React$Component) {
     {
       key: "render",
       value: function render() {
+        var _this$props$provided;
+
         var renderData = this.props.renderData;
         var groups = this.props.columns
           .filter(function (col) {
@@ -315,7 +317,13 @@ var MTableBody = /*#__PURE__*/ (function (_React$Component) {
 
         return /*#__PURE__*/ React.createElement(
           _TableBody["default"],
-          null,
+          {
+            ref:
+              (_this$props$provided = this.props.provided) === null ||
+              _this$props$provided === void 0
+                ? void 0
+                : _this$props$provided.innerRef,
+          },
           this.props.options.filtering &&
             /*#__PURE__*/ React.createElement(this.props.components.FilterRow, {
               columns: this.props.columns.filter(function (columnDef) {
@@ -329,6 +337,9 @@ var MTableBody = /*#__PURE__*/ (function (_React$Component) {
               actionsColumnIndex: this.props.options.actionsColumnIndex,
               onFilterChanged: this.props.onFilterChanged,
               selection: this.props.options.selection,
+              draggableCells:
+                this.props.options.draggableRows &&
+                this.props.options.draggableRowsOptions.draggableCell,
               localization: (0, _objectSpread2["default"])(
                 {},
                 MTableBody.defaultProps.localization.filterRow,
@@ -395,7 +406,8 @@ var MTableBody = /*#__PURE__*/ (function (_React$Component) {
               onEditingApproved: this.props.onEditingApproved,
               getFieldValue: this.props.getFieldValue,
             }),
-          this.renderEmpty(emptyRowCount, renderData)
+          this.renderEmpty(emptyRowCount, renderData),
+          this.props.provided.placeholder
         );
       },
     },
@@ -450,6 +462,7 @@ MTableBody.propTypes = {
   onRowClick: _propTypes["default"].func,
   onEditingCanceled: _propTypes["default"].func,
   onEditingApproved: _propTypes["default"].func,
+  provided: _propTypes["default"].object,
   errorState: _propTypes["default"].oneOfType([
     _propTypes["default"].object,
     _propTypes["default"].bool,
