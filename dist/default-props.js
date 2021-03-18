@@ -334,6 +334,7 @@ var defaultProps = {
     debounceInterval: 200,
     doubleHorizontalScroll: false,
     draggableRows: false,
+    draggableColumnIndex: "",
     draggableRowsOptions: {
       draggableCell: false,
       dragHeaderContent: "",

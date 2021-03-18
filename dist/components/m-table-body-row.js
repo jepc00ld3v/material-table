@@ -645,6 +645,10 @@ var MTableBodyRow = /*#__PURE__*/ (function (_React$Component) {
             "actions",
             "errorState",
           ]);
+        var indexKey =
+          this.props.data && options.draggableColumnIndex
+            ? this.props.data[options.draggableColumnIndex] || this.props.index
+            : this.props.index;
         return /*#__PURE__*/ React.createElement(
           React.Fragment,
           null,
@@ -652,11 +656,9 @@ var MTableBodyRow = /*#__PURE__*/ (function (_React$Component) {
             _reactBeautifulDnd.Draggable,
             {
               isDragDisabled: !options.draggableRows,
-              key: "row-" + this.props.index.toString(),
-              draggableId: "row-" + this.props.index.toString(),
-              index: this.props.data
-                ? this.props.data.disporder || this.props.data.id
-                : this.props.index,
+              key: "row-" + indexKey.toString(),
+              draggableId: "row-" + indexKey.toString(),
+              index: indexKey,
             },
             function (provided, snapshot) {
               var _provided$draggablePr = provided.draggableProps,

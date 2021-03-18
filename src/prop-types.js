@@ -307,6 +307,7 @@ export const propTypes = {
     detailPanelType: PropTypes.oneOf(["single", "multiple"]),
     doubleHorizontalScroll: PropTypes.bool,
     draggableRows: PropTypes.bool,
+    draggableColumnIndex: PropTypes.string,
     draggableRowsOptions: PropTypes.shape({
       draggableCell: PropTypes.bool,
       dragHeaderContent: PropTypes.string | PropTypes.element,

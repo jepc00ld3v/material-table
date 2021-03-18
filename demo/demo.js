@@ -661,6 +661,7 @@ class App extends Component {
                 draggableRows:
                   this.state.dragOption === "cell" ||
                   this.state.dragOption === "row",
+                draggableColumnIndex: "id",
                 draggableRowsOptions: {
                   draggableCell: this.state.dragOption === "cell",
                   dragCellContent: "=",

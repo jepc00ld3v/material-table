@@ -341,6 +341,7 @@ var propTypes = {
     detailPanelType: _propTypes["default"].oneOf(["single", "multiple"]),
     doubleHorizontalScroll: _propTypes["default"].bool,
     draggableRows: _propTypes["default"].bool,
+    draggableColumnIndex: _propTypes["default"].string,
     draggableRowsOptions: _propTypes["default"].shape({
       draggableCell: _propTypes["default"].bool,
       dragHeaderContent:
