@@ -520,7 +520,7 @@ class App extends Component {
                   }}
                   options={{
                     headerSelectionProps: {
-                      color: 'primary'
+                      color: "primary",
                     },
                     selection: true,
                     selectionProps: (rowData) => {
@@ -528,7 +528,7 @@ class App extends Component {
 
                       return {
                         disabled: rowData.name === "A1",
-                        color: 'primary'
+                        color: "primary",
                       };
                     },
                   }}
@@ -672,25 +672,9 @@ class App extends Component {
                   searchPlaceholder: "Outlined Search Field",
                 },
               }}
-              data={(query) =>
-                new Promise((resolve, reject) => {
-                  let url = "https://reqres.in/api/users?";
-                  url += "per_page=" + query.pageSize;
-                  url += "&page=" + (query.page + 1);
-                  console.log(query);
-                  fetch(url)
-                    .then((response) => response.json())
-                    .then((result) => {
-                      this.resetDataOrder(result.data);
-                      resolve({
-                        data: result.data,
-                        page: result.page - 1,
-                        totalCount: result.total,
-                      });
-                    });
-                })
-              }
+              data={this.state.data}
               onRowDrop={(result) => {
+                console.log(result);
                 this.state.remoteDataOrder.splice(
                   result.destination.index,
                   0,

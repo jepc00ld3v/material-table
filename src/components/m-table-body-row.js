@@ -403,7 +403,11 @@ export default class MTableBodyRow extends React.Component {
           isDragDisabled={!options.draggableRows}
           key={"row-" + this.props.index.toString()}
           draggableId={"row-" + this.props.index.toString()}
-          index={this.props.index}
+          index={
+            this.props.data
+              ? this.props.data.disporder || this.props.data.id
+              : this.props.index
+          }
         >
           {(provided, snapshot) => {
             const {

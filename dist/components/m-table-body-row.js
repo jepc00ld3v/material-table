@@ -654,7 +654,9 @@ var MTableBodyRow = /*#__PURE__*/ (function (_React$Component) {
               isDragDisabled: !options.draggableRows,
               key: "row-" + this.props.index.toString(),
               draggableId: "row-" + this.props.index.toString(),
-              index: this.props.index,
+              index: this.props.data
+                ? this.props.data.disporder || this.props.data.id
+                : this.props.index,
             },
             function (provided, snapshot) {
               var _provided$draggablePr = provided.draggableProps,
