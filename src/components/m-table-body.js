@@ -51,7 +51,13 @@ class MTableBody extends React.Component {
             style={{ paddingTop: 0, paddingBottom: 0, textAlign: "center" }}
             colSpan={this.props.columns.reduce(
               (currentVal, columnDef) =>
-                columnDef.hidden ? currentVal : currentVal + 1,
+                columnDef.hidden
+                  ? currentVal
+                  : currentVal +
+                    (this.props.options.draggableRows &&
+                    this.props.options.draggableRowsOptions.draggableCell
+                      ? 2
+                      : 1),
               addColumn
             )}
             key="empty-"
