@@ -251,10 +251,15 @@ export default class MTableEditRow extends React.Component {
     if (this.props.mode === "add" || this.props.mode === "update") {
       columns = this.renderColumns();
     } else {
-      const colSpan = this.props.columns.filter(
-        (columnDef) =>
-          !columnDef.hidden && !(columnDef.tableData.groupOrder > -1)
-      ).length;
+      const colSpan =
+        this.props.columns.filter(
+          (columnDef) =>
+            !columnDef.hidden && !(columnDef.tableData.groupOrder > -1)
+        ).length +
+        (this.props.options.draggableRows &&
+        this.props.options.draggableRowsOptions.draggableCell
+          ? 1
+          : 0);
       columns = [
         <TableCell
           size={size}
@@ -355,6 +360,11 @@ export default class MTableEditRow extends React.Component {
           {...rowProps}
           style={this.getStyle()}
         >
+          {(this.props.mode === "add" || this.props.mode === "update") &&
+            this.props.options.draggableRows &&
+            this.props.options.draggableRowsOptions.draggableCell && (
+              <TableCell />
+            )}
           {columns}
         </TableRow>
       </>

@@ -435,9 +435,16 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
         if (this.props.mode === "add" || this.props.mode === "update") {
           columns = this.renderColumns();
         } else {
-          var colSpan = this.props.columns.filter(function (columnDef) {
-            return !columnDef.hidden && !(columnDef.tableData.groupOrder > -1);
-          }).length;
+          var colSpan =
+            this.props.columns.filter(function (columnDef) {
+              return (
+                !columnDef.hidden && !(columnDef.tableData.groupOrder > -1)
+              );
+            }).length +
+            (this.props.options.draggableRows &&
+            this.props.options.draggableRowsOptions.draggableCell
+              ? 1
+              : 0);
           columns = [
             /*#__PURE__*/ React.createElement(
               _TableCell["default"],
@@ -583,6 +590,10 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
                 style: this.getStyle(),
               }
             ),
+            (this.props.mode === "add" || this.props.mode === "update") &&
+              this.props.options.draggableRows &&
+              this.props.options.draggableRowsOptions.draggableCell &&
+              /*#__PURE__*/ React.createElement(_TableCell["default"], null),
             columns
           )
         );
